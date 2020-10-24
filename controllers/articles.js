@@ -1,17 +1,20 @@
 const Article = require('../models/article');
 const BadRequestError = require('../errors/BadRequestError');
+const ServerError = require('../errors/ServerError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
-module.exports.getArticles = (req, res, next) => {
+const getArticles = (req, res, next) => {
   Article.find({})
     .populate('user')
     .then((articles) => res.status(200).send({ data: articles }))
-    .catch((err) => res.status(500).send({ message: `На сервере произошла ошибка: ${err.message}` }))
+    .catch((err) => {
+      throw new ServerError({ message: `На сервере произошла ошибка: ${err.message}` });
+    })
     .catch(next);
 };
 
-module.exports.createArticle = (req, res, next) => {
+const createArticle = (req, res, next) => {
   const {
     keyword, title, text, date, source, link, image,
   } = req.body;
@@ -26,8 +29,9 @@ module.exports.createArticle = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.deleteArticle = (req, res, next) => {
+const deleteArticle = (req, res, next) => {
   Article.findById(req.params._id)
+    .select('+owner')
     .orFail()
     .catch(() => {
       throw new NotFoundError({ message: 'Нет темы с таким id' });
@@ -45,3 +49,8 @@ module.exports.deleteArticle = (req, res, next) => {
     .catch(next);
 };
 
+module.exports = {
+  getArticles,
+  createArticle,
+  deleteArticle,
+};

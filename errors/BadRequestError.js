@@ -1,3 +1,4 @@
+
 class BadRequestError extends Error {
   constructor(message, ...rest) {
     super(...rest);

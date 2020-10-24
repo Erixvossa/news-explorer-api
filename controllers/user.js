@@ -6,10 +6,8 @@ const NotFoundError = require('../errors/NotFoundError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.createUser = (req, res, next) => {
-  const {
-    email, password, name
-  } = req.body;
+const createUser = (req, res, next) => {
+  const { email, password, name } = req.body;
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
@@ -29,17 +27,17 @@ module.exports.createUser = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.getCurrentUser = (req, res, next) => {
-  User.findById(req.params._id)
+const getUser = (req, res, next) => {
+  User.findById(req.user._id)
     .orFail()
     .catch(() => {
       throw new NotFoundError({ message: 'Нет пользователя с таким id' });
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({ data: { email: user.email, name: user.name } }))
     .catch(next);
 };
 
-module.exports.login = (req, res, next) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
@@ -60,3 +58,8 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
+module.exports = {
+  createUser,
+  login,
+  getUser,
+};
