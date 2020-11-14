@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const { userRouter, articlesRouter } = require('./routes');
 const auth = require('./middlewares/auth');
 const { validateUser, validateLogin } = require('./middlewares/requestValidation');
@@ -40,7 +41,16 @@ mongoose.connect('mongodb://localhost:27017/newsdb', {
 });
 
 app.use(requestLogger);
-
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://www.erixvossa.students.nomoreparties.co',
+    'https://www.erixvossa.students.nomoreparties.co',
+    'http://erixvossa.students.nomoreparties.co',
+    'https://erixvossa.students.nomoreparties.co',
+  ],
+  credentials: true,
+}));
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
 
