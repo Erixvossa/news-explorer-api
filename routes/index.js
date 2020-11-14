@@ -1,7 +1,19 @@
+const router = require('express').Router();
+const { login, createUser } = require('../controllers/users');
+const auth = require('../middlewares/auth');
 const userRouter = require('./users');
-const articlesRouter = require('./articles');
+const articleRouter = require('./articles');
+const checkPassword = require('../middlewares/checkPassword');
+const { validateUserBody, validateAuthentication } = require('../middlewares/requestValidation');
+const NotFoundError = require('../errors/NotFoundError');
 
-module.exports = {
-  userRouter,
-  articlesRouter,
-};
+router.post('/signup', validateUserBody, checkPassword, createUser);
+router.post('/signin', validateAuthentication, checkPassword, login);
+router.use(auth);
+router.use('/users', userRouter);
+router.use('/articles', articleRouter);
+router.use('/*', (req, res, next) => {
+  next(new NotFoundError('Запрашиваемый ресурс не найден'));
+});
+
+module.exports = router;
