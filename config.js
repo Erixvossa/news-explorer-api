@@ -1,4 +1,4 @@
-const { PORT = 3000, JWT_SECRET = 'eb6b2f657e94c7b2ecbfea1699c71a1010294d84cd257efd0b16de787635af41' } = process.env;
+const { PORT = 3000, JWT_SECRET = '564696aa8c0f84cdf4d4aa53afbd689f5828c764d9482950e22a3253fe61c229' } = process.env;
 
 module.exports = {
   PORT,
