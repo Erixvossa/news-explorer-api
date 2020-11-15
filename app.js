@@ -30,7 +30,6 @@ app.use(cookieParser());
 app.use(requestLogger);
 app.use(cors({
   origin: [
-    'http://localhost:3000',
     'http://www.ervossa.students.nomoreparties.co',
     'https://www.ervossa.students.nomoreparties.co',
     'http://ervossa.students.nomoreparties.co',
