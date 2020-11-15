@@ -31,10 +31,10 @@ app.use(requestLogger);
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'http://www.erixvossa.students.nomoreparties.co',
-    'https://www.erixvossa.students.nomoreparties.co',
-    'http://erixvossa.students.nomoreparties.co',
-    'https://erixvossa.students.nomoreparties.co',
+    'http://www.ervossa.students.nomoreparties.co',
+    'https://www.ervossa.students.nomoreparties.co',
+    'http://ervossa.students.nomoreparties.co',
+    'https://ervossa.students.nomoreparties.co',
   ],
   credentials: true,
 }));

@@ -1,4 +1,4 @@
-const BadRequestError = require('../errors/BadRequestError');
+const BadRequestError = require('../errors/bad-request-error');
 
 const checkPassword = (req, res, next) => {
   const { password } = req.body;
